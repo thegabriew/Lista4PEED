@@ -1,0 +1,66 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeada:
+   
+    def __init__(self):
+        self.inicio = None
+
+    def inserir(self, elemento):
+        novo_item = Item(elemento)
+        if self.inicio is None:
+            self.inicio = novo_item
+        else:
+            aux = self.inicio
+        while aux.prox is not None:
+            aux = aux.prox
+            aux.prox = novo_item
+
+    def remover(self):
+          
+            if self.is_empty():
+                raise IndexError("A lista está vazia")
+            aux = self.inicio
+            anterior = None
+            
+            while aux.prox is not None:
+                anterior = aux
+                aux = aux.prox
+            if anterior is None:
+                valor = self.inicio.value
+                self.inicio = None
+                return valor
+            valor = aux.value
+            anterior.prox = None
+            return valor
+        
+    def listar (self, item):
+        if self.is_empty():
+            raise IndexError ("Lista vazia")
+        aux = self.inicio
+        while aux is not None:
+            if aux.value == item:
+                return True
+            aux = aux.prox
+        return False
+
+    def buscar (self, item):
+        if self.inicio is None:
+            raise IndexError("Lista vazia")
+        aux = self.inicio
+        while aux is not None:
+            if aux.value == item:
+                return True
+            aux  = aux.prox
+        return False
+    
+    def is_empty (self):
+        return self.inicio is None
+    
+    def is_full (self):
+        return self.count >= self.size
+    
+    def tamanho (self):
+        return self.count
