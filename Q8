@@ -1,0 +1,50 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeadaSimples:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            self.fim = novo_item
+        else:
+            self.fim.prox = novo_item
+            self.fim = novo_item
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        valor = self.inicio.dado
+        self.inicio = self.inicio.prox
+        if self.inicio is None:
+            self.fim = None
+        return valor
+
+def criar_lista_inversa(lista):
+    lista_inversa = ListaEncadeadaSimples()
+    for numero in reversed(lista):
+        lista_inversa.inserir(numero)
+    return lista_inversa
+
+numeros = []
+while True:
+    numero = int(input("Digite um número inteiro (ou um número negativo para encerrar): "))
+    if numero < 0:
+        break
+    numeros.append(numero)
+
+lista_inversa = criar_lista_inversa(numeros)
+
+print("Lista encadeada simples em ordem inversa:")
+while not lista_inversa.is_empty():
+    elemento = lista_inversa.remover()
+    print(elemento)
