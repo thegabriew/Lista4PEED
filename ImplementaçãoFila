@@ -3,7 +3,7 @@ class Item:
         self.dado = dado
         self.prox = None
 
-class ListaEncadeada:
+class Fila:
    
     def __init__(self):
         self.inicio = None
