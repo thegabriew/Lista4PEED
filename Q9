@@ -1,0 +1,114 @@
+class Cliente:
+    def __init__(self, nome, numero_conta, saldo):
+        self.nome = nome
+        self.numero_conta = numero_conta
+        self.saldo = saldo
+        self.prox = None
+
+class ListaClientes:
+    def __init__(self):
+        self.inicio = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, cliente):
+        novo_cliente = Cliente(cliente.nome, cliente.numero_conta, cliente.saldo)
+        if self.is_empty():
+            self.inicio = novo_cliente
+        else:
+            aux = self.inicio
+            while aux.prox is not None:
+                aux = aux.prox
+            aux.prox = novo_cliente
+
+    def remover(self, numero_conta):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        if self.inicio.numero_conta == numero_conta:
+            self.inicio = self.inicio.prox
+        else:
+            aux = self.inicio
+            anterior = None
+            while aux is not None and aux.numero_conta != numero_conta:
+                anterior = aux
+                aux = aux.prox
+            if aux is None:
+                raise ValueError("Cliente não encontrado")
+            anterior.prox = aux.prox
+
+    def pesquisar(self, numero_conta):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        aux = self.inicio
+        while aux is not None:
+            if aux.numero_conta == numero_conta:
+                return aux
+            aux = aux.prox
+        raise ValueError("Cliente não encontrado")
+
+    def mostrar_tabela(self):
+        if self.is_empty():
+            print("A lista está vazia")
+        else:
+            print("----- Lista de Clientes -----")
+            print("| {:^15} | {:^15} | {:^10} |".format("Nome", "Número da Conta", "Saldo"))
+            print("|---------------|---------------|------------|")
+            aux = self.inicio
+            while aux is not None:
+                print("| {:<15} | {:^15} | R${:<8} |".format(aux.nome, aux.numero_conta, aux.saldo))
+                aux = aux.prox
+            print("--------------------------------")
+
+lista_clientes = ListaClientes()
+
+def menu():
+    print("\n--- Menu ---")
+    print("1. Inserir cliente")
+    print("2. Remover cliente")
+    print("3. Pesquisar cliente")
+    print("4. Mostrar lista de clientes")
+    print("5. Sair")
+
+def inserir_cliente():
+    nome = input("Nome do cliente: ")
+    numero_conta = input("Número da conta: ")
+    saldo = float(input("Saldo: "))
+    cliente = Cliente(nome, numero_conta, saldo)
+    lista_clientes.inserir(cliente)
+    lista_clientes.mostrar_tabela()
+
+def remover_cliente():
+    numero_conta = input("Número da conta do cliente a ser removido: ")
+    lista_clientes.remover(numero_conta)
+    lista_clientes.mostrar_tabela()
+
+def pesquisar_cliente():
+    numero_conta = input("Número da conta do cliente a ser pesquisado: ")
+    cliente = lista_clientes.pesquisar(numero_conta)
+    print("\nCliente encontrado:")
+    print("Nome: ", cliente.nome)
+    print("Número da conta: ", cliente.numero_conta)
+    print("Saldo: R$", cliente.saldo)
+
+def mostrar_lista():
+    lista_clientes.mostrar_tabela()
+
+while True:
+    menu()
+    opcao = int(input("Digite o número da opção desejada: "))
+
+    if opcao == 1:
+        inserir_cliente()
+    elif opcao == 2:
+        remover_cliente()
+    elif opcao == 3:
+        pesquisar_cliente()
+    elif opcao == 4:
+        mostrar_lista()
+    elif opcao == 5:
+        break
+    else:
+        print("Opção inválida. Digite novamente.")
+
+print("Programa encerrado.")
