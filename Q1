@@ -1,0 +1,30 @@
+class Fila:
+    def __init__(self):
+        self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+    def inserir(self, item):
+        self.items.append(item)
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A fila está vazia")
+        return self.items.pop(0)
+
+    def first(self):
+        if self.is_empty():
+            raise IndexError("A fila está vazia")
+        return self.items[0]
+
+
+fila = Fila()
+
+fila.inserir(58)
+fila.inserir(46)
+fila.inserir(10)
+
+print(fila.first())  
+fila.remover()
+print(fila.first())  
