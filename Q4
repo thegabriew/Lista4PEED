@@ -1,0 +1,61 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+
+class ListaEncadeada:
+    def __init__(self):
+        self.inicio = None
+
+    def inserir(self, elemento):
+        novo_item = Item(elemento)
+        if self.inicio is None:
+            self.inicio = novo_item
+        else:
+            aux = self.inicio
+            while aux.prox is not None:
+                aux = aux.prox
+            aux.prox = novo_item
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        aux = self.inicio
+        anterior = None
+        while aux.prox is not None:
+            anterior = aux
+            aux = aux.prox
+        if anterior is None:
+            valor = self.inicio.dado
+            self.inicio = None
+            return valor
+        valor = aux.dado
+        anterior.prox = None
+        return valor
+
+    def is_empty(self):
+        return self.inicio is None
+
+def is_palindromo(frase):
+    
+    frase = frase.replace(" ", "").lower()
+
+    fila = ListaEncadeada()
+
+    for char in frase:
+        fila.inserir(char)
+
+    while not fila.is_empty():
+        if fila.remover() != frase[0]:
+            return False
+        frase = frase[1:]
+
+    return True
+
+frase = input("Digite uma frase: ")
+
+if verificar_palindromo(frase):
+    print("A frase é um palíndromo.")
+else:
+    print("A frase não é um palíndromo.")
