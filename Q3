@@ -1,0 +1,42 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class Fila:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            self.fim = novo_item
+        else:
+            self.fim.prox = novo_item
+            self.fim = novo_item
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A fila está vazia")
+        valor = self.inicio.dado
+        self.inicio = self.inicio.prox
+        if self.inicio is None:
+            self.fim = None
+        return valor
+
+fila = Fila()
+
+numero = int(input("Digite um número inteiro\nInsira um número inteiro para sair: "))
+
+while numero >= 0:
+    fila.inserir(numero)
+    numero = int(input("Digite um número inteiro\nInsira um número inteiro para sair: "))
+
+while not fila.is_empty():
+    elemento = fila.remover()
+    print(elemento)
