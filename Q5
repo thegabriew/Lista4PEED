@@ -1,0 +1,46 @@
+class FilaCircular:
+    def __init__(self, tamanho_max):
+        self.tamanho_max = tamanho_max
+        self.fila = [None] * tamanho_max
+        self.inicio = 0
+        self.fim = 0
+        self.tamanho = 0
+
+    def is_empty(self):
+        return self.tamanho == 0
+
+    def is_full(self):
+        return self.tamanho == self.tamanho_max
+
+    def inserir(self, item):
+        if self.is_full():
+            raise IndexError("A fila está cheia")
+        self.fila[self.fim] = item
+        self.fim = (self.fim + 1) % self.tamanho_max
+        self.tamanho += 1
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A fila está vazia")
+        valor = self.fila[self.inicio]
+        self.fila[self.inicio] = None
+        self.inicio = (self.inicio + 1) % self.tamanho_max
+        self.tamanho -= 1
+        return valor
+
+    def frente(self):
+        if self.is_empty():
+            raise IndexError("A fila está vazia")
+        return self.fila[self.inicio]
+
+
+tamanho_max = int(input("Digite o tamanho máximo da fila: "))
+fila = FilaCircular(tamanho_max)
+
+while not fila.is_full():
+    numero = int(input("Digite um número inteiro: "))
+    fila.inserir(numero)
+
+while not fila.is_empty():
+    elemento = fila.remover()
+    print(elemento)
