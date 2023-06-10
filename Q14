@@ -1,0 +1,49 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeadaCircular:
+    def __init__(self):
+        self.inicio = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            novo_item.prox = self.inicio
+        else:
+            atual = self.inicio
+            while atual.prox != self.inicio:
+                if atual.prox.dado > item:
+                    break
+                atual = atual.prox
+            novo_item.prox = atual.prox
+            atual.prox = novo_item
+
+    def primeiro_elemento(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        return self.inicio.dado
+
+    def ultimo_elemento(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        atual = self.inicio
+        while atual.prox != self.inicio:
+            atual = atual.prox
+        return atual.dado
+
+lista = ListaEncadeadaCircular()
+
+while True:
+    numero = int(input("Digite um número inteiro \n(ou um número negativo para encerrar): "))
+    if numero < 0:
+        break
+    lista.inserir(numero)
+
+print("Primeiro elemento da lista:", lista.primeiro_elemento())
+print("Último elemento da lista:", lista.ultimo_elemento())
