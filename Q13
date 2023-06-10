@@ -1,0 +1,118 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeadaCircular:
+    def __init__(self):
+        self.inicio = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir_inicio(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            novo_item.prox = self.inicio
+        else:
+            novo_item.prox = self.inicio
+            atual = self.inicio
+            while atual.prox != self.inicio:
+                atual = atual.prox
+            atual.prox = novo_item
+            self.inicio = novo_item
+
+    def inserir_final(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            novo_item.prox = self.inicio
+        else:
+            atual = self.inicio
+            while atual.prox != self.inicio:
+                atual = atual.prox
+            atual.prox = novo_item
+            novo_item.prox = self.inicio
+
+    def remover_inicio(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        valor = self.inicio.dado
+        if self.inicio.prox == self.inicio:
+            self.inicio = None
+        else:
+            atual = self.inicio
+            while atual.prox != self.inicio:
+                atual = atual.prox
+            atual.prox = self.inicio.prox
+            self.inicio = self.inicio.prox
+        return valor
+
+    def remover_final(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        valor = None
+        if self.inicio.prox == self.inicio:
+            valor = self.inicio.dado
+            self.inicio = None
+        else:
+            atual = self.inicio
+            while atual.prox.prox != self.inicio:
+                atual = atual.prox
+            valor = atual.prox.dado
+            atual.prox = self.inicio
+        return valor
+
+    def exibir_lista(self):
+        if self.is_empty():
+            print("A lista está vazia")
+        else:
+            atual = self.inicio
+            while True:
+                print(atual.dado)
+                atual = atual.prox
+                if atual == self.inicio:
+                    break
+
+
+lista = ListaEncadeadaCircular()
+
+while True:
+    print("\n=== MENU ===")
+    print("1. Inserir no início da lista")
+    print("2. Inserir no final da lista")
+    print("3. Remover do início da lista")
+    print("4. Remover do final da lista")
+    print("5. Exibir a lista")
+    print("6. Sair")
+
+    opcao = input("Digite a opção desejada: ")
+
+    if opcao == "1":
+        item = input("Digite o item a ser inserido no início da lista: ")
+        lista.inserir_inicio(item)
+        print("Item inserido no início da lista")
+    elif opcao == "2":
+        item = input("Digite o item a ser inserido no final da lista: ")
+        lista.inserir_final(item)
+        print("Item inserido no final da lista")
+    elif opcao == "3":
+        try:
+            valor = lista.remover_inicio()
+            print(f"Item removido do início da lista: {valor}")
+        except IndexError as e:
+            print(str(e))
+    elif opcao == "4":
+        try:
+            valor = lista.remover_final()
+            print(f"Item removido do final da lista: {valor}")
+        except IndexError as e:
+            print(str(e))
+    elif opcao == "5":
+        print("Lista encadeada circular:")
+        lista.exibir_lista()
+    elif opcao == "6":
+        break
+    else:
+        print("Opção inválida. Digite novamente.")
