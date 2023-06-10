@@ -1,0 +1,45 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeadaSimples:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            self.fim = novo_item
+        else:
+            self.fim.prox = novo_item
+            self.fim = novo_item
+
+def palavra_mais_longa(lista_palavras):
+    lista_resultante = ListaEncadeadaSimples()
+    maior_comprimento = 0
+
+    for palavra in lista_palavras:
+        comprimento = len(palavra)
+        if comprimento > maior_comprimento:
+            lista_resultante = ListaEncadeadaSimples()
+            lista_resultante.inserir(palavra)
+            maior_comprimento = comprimento
+        elif comprimento == maior_comprimento:
+            lista_resultante.inserir(palavra)
+
+    return lista_resultante
+
+palavras = input("Digite as palavras separadas por espaço: ").split()
+
+resultado = palavra_mais_longa(palavras)
+
+while not resultado.is_empty():
+    palavra = resultado.inicio.dado
+    print(palavra)
+    resultado.inicio = resultado.inicio.prox
