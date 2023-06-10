@@ -1,0 +1,52 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeadaSimples:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            self.fim = novo_item
+        else:
+            self.fim.prox = novo_item
+            self.fim = novo_item
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        valor = self.inicio.dado
+        self.inicio = self.inicio.prox
+        if self.inicio is None:
+            self.fim = None
+        return valor
+
+def intersecao_listas(lista1, lista2):
+    set_lista1 = set()
+    for item in lista1:
+        set_lista1.add(item)
+
+    lista_resultante = ListaEncadeadaSimples()
+
+    for item in lista2:
+        if item in set_lista1:
+            lista_resultante.inserir(item)
+
+    return lista_resultante
+
+numeros1 = [int(x) for x in input("Digite os números da primeira lista separados por espaço: ").split()]
+numeros2 = [int(x) for x in input("Digite os números da segunda lista separados por espaço: ").split()]
+
+resultado = intersecao_listas(numeros1, numeros2)
+
+while not resultado.is_empty():
+    numero = resultado.remover()
+    print(numero)
