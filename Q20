@@ -1,0 +1,57 @@
+class Aluno:
+    def __init__(self, nome, nota):
+        self.nome = nome
+        self.nota = nota
+        self.prox = None
+
+class ListaEncadeada:
+    def __init__(self):
+        self.inicio = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, aluno):
+        novo_aluno = Aluno(aluno["nome"], aluno["nota"])
+        if self.is_empty():
+            self.inicio = novo_aluno
+        else:
+            aux = self.inicio
+            while aux.prox is not None:
+                aux = aux.prox
+            aux.prox = novo_aluno
+
+    def aluno_com_maior_nota(self):
+        if self.is_empty():
+            return None
+
+        maior_nota = float('-inf')
+        nome_aluno_maior_nota = ""
+
+        aux = self.inicio
+        while aux is not None:
+            if aux.nota > maior_nota:
+                maior_nota = aux.nota
+                nome_aluno_maior_nota = aux.nome
+            aux = aux.prox
+
+        return nome_aluno_maior_nota
+
+def obter_alunos():
+    lista_alunos = ListaEncadeada()
+    
+    while True:
+        nome = input("Digite o nome do aluno (ou enter para sair): ")
+        if nome == "":
+            break
+        nota = float(input("Digite a nota do aluno: "))
+        aluno = {"nome": nome, "nota": nota}
+        lista_alunos.inserir(aluno)
+    
+    return lista_alunos
+
+lista_alunos = obter_alunos()
+
+nome_aluno_maior_nota = lista_alunos.aluno_com_maior_nota()
+
+print("Aluno com a maior nota:", nome_aluno_maior_nota)
