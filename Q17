@@ -1,0 +1,46 @@
+class Item:
+    def __init__(self, dado):
+        self.dado = dado
+        self.prox = None
+
+class ListaEncadeadaSimples:
+    def __init__(self):
+        self.inicio = None
+        self.fim = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def inserir(self, item):
+        novo_item = Item(item)
+        if self.is_empty():
+            self.inicio = novo_item
+            self.fim = novo_item
+        else:
+            self.fim.prox = novo_item
+            self.fim = novo_item
+
+    def remover(self):
+        if self.is_empty():
+            raise IndexError("A lista está vazia")
+        valor = self.inicio.dado
+        self.inicio = self.inicio.prox
+        if self.inicio is None:
+            self.fim = None
+        return valor
+
+def filtrar_strings(lista_strings):
+    lista_resultante = ListaEncadeadaSimples()
+    for string in lista_strings:
+        if len(string) > 5:
+            lista_resultante.inserir(string)
+
+    return lista_resultante
+
+palavras = input("Digite as palavras separadas por espaço: ").split()
+
+resultado = filtrar_strings(palavras)
+
+while not resultado.is_empty():
+    palavra = resultado.remover()
+    print(palavra)
