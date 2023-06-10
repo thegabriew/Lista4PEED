@@ -1,0 +1,49 @@
+import random
+
+class Item:
+    def __init__(self, numero):
+        self.numero = numero
+        self.prox = None
+
+class Roleta:
+    def __init__(self):
+        self.inicio = None
+
+    def is_empty(self):
+        return self.inicio is None
+
+    def adicionar_numero(self, numero):
+        novo_item = Item(numero)
+        if self.is_empty():
+            self.inicio = novo_item
+            novo_item.prox = self.inicio
+        else:
+            atual = self.inicio
+            while atual.prox != self.inicio:
+                atual = atual.prox
+            atual.prox = novo_item
+            novo_item.prox = self.inicio
+
+    def girar_roleta(self):
+        if self.is_empty():
+            raise ValueError("A roleta está vazia")
+        numero_sorteado = random.randint(0, 36)
+        print("Número sorteado:", numero_sorteado)
+        atual = self.inicio
+        while True:
+            if atual.numero == numero_sorteado:
+                print("Você ganhou!")
+                break
+            atual = atual.prox
+            if atual == self.inicio:
+                print("Você perdeu!")
+                break
+
+roleta = Roleta()
+
+for numero in range(37):
+    roleta.adicionar_numero(numero)
+
+aposta = int(input("Faça sua aposta (0-36): "))
+
+roleta.girar_roleta()
